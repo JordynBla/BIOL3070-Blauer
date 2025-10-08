@@ -1,0 +1,455 @@
+Warm-up mini-Report: Mosquito Blood Hosts in Salt Lake City, Utah
+================
+Jordyn Blauer
+2025-10-08
+
+- [ABSTRACT](#abstract)
+- [BACKGROUND](#background)
+- [STUDY QUESTION and HYPOTHESIS](#study-question-and-hypothesis)
+  - [Questions](#questions)
+  - [Hypothesis](#hypothesis)
+  - [Prediction](#prediction)
+- [METHODS](#methods)
+  - [Fill in 1st analysis
+    e.g. barplots](#fill-in-1st-analysis-eg-barplots)
+  - [Barplot Code](#barplot-code)
+- [Second Analysis](#second-analysis)
+  - [Fill in 2nd analysis/plot e.g. generalized linear
+    model](#fill-in-2nd-analysisplot-eg-generalized-linear-model)
+  - [Statisical Test Code](#statisical-test-code)
+- [DISCUSSION](#discussion)
+  - [Interpretation of 1st analysis
+    (e.g. barplots)](#interpretation-of-1st-analysis-eg-barplots)
+  - [Interpretation of 2nd analysis (e.g. generalized linear
+    model)](#interpretation-of-2nd-analysis-eg-generalized-linear-model)
+- [CONCLUSION](#conclusion)
+- [REFERENCES](#references)
+
+# ABSTRACT
+
+West Nile Virus (WNV) can be found mainly in the Western United States.
+The virus can be found in animals and picked up and transferred via
+blood meals from mosquitoes. House finches are a common bird found in
+areas that WNV is present and they could be a big source of where
+mosquitoes pick up the virus and spread the infection. Through
+collection of mosquitoes in The Salt Lake City area using gravid traps
+and Co2 traps, female mosquitoes that have blood fed were collected and
+their blood meals were analyzed using PCR, followed by gel
+electrophoresis, MinION, and Blastn to determine positivity or
+negativity of WNV in the blood and what species the blood meals were
+taken from. By using this data run through Posit Cloud, it was
+determined that House finches were a major source of blood meals for
+mosquitoes and they had the highest positivity rates of WNV in those
+blood meals, meaning that the House finches were the most common and
+likely host for mosquitoes to pick up WNV and spread the infection,
+supporting our hypothesis that House finches are the most likely species
+to be infected with WNV and they pose a higher risk of spreading the
+infection via blood meals by mosquitoes.
+
+# BACKGROUND
+
+West Nile Virus (WNV) is a virus that is spread through the bite of a
+mosquito. The virus causes flu-like symptoms like fever, and headache,
+but in rare and severe cases it can cause damage to the central nervous
+system resulting in hospitalization or death (Centers). Birds of many
+species are found to be good hosts for WNV virus, causing mosquitoes to
+pick up the virus when they feed on birds who have the virus. Different
+species of birds have been shown to have differing days of detectable
+viremia. The longer the days of detectable viremia in the blood of these
+birds, the longer mosquitoes are able to pick up the virus when they
+feed on these birds (Komar et al., 2003).
+
+In this experiment, after samples of female mosquitoes found in The Salt
+Lake City area were collected, the bloodmeals of the mosquitoes were
+extracted through smashing the mosquitoes in individual tubes, then
+combined with a DNA extraction/lysis buffer. The samples were then run
+through PCR so we could determine the presence of WNV and what species
+of animals the mosquitoes took bloodmeals from.
+
+PCR is a process that is used to amplify sequences of DNA, so that there
+are more copies of the sample DNA to make examination of it easier
+(PCR). The sample DNA is combined wiht DNA extraction/lysis buffer which
+is many parts of DNA that is used to make more copies during the
+process. Once all the samples are assembled, the tubes are placed into
+the thermocycler machine, two of the samples in the machine are a
+positive sample and a negative sample that is used to compare the
+samples that are being tested. The machine is then allowed to run for,
+where it will go through different temperatures which will all have
+different effects on the DNA samples.
+
+Once complete, the samples are then run through gel electrophoresis to
+determine if the samples contain WNV or not. On the gel, the samples are
+pipetting onto a starting area along with a known sample of WNV, at the
+starting end a negative charge is placed and at the other end a positive
+charge is placed. Because DNA is negatively charged it will move through
+the gel towards the positive end of the gel. This separates out
+different sizes of the DNA because larger DNA strands move slower
+through the gel than the smaller strands and then that DNA can be
+compared to the WNV strain in the gel to determine if WNV is present in
+the other samples.
+
+Once it is determined what samples have WNV and which don’t it can then
+be determined what species of animals are found in the samples. This was
+done using MinION sequencing, a process that runs the samples through a
+device that determines the bases of DNA present so a definite sequence
+of DNA strains can be determined.
+
+Once all samples are run through MinION and DNA sequences are
+determined, the sequences are run through BLASTn, a website database
+where DNA sequences can be run though in order to determine what species
+the DNA sequences belong to.
+
+Once all sequences have been run through BLASTn and all the species
+found are recorded, the data is collected and run through Posit Cloud to
+further analyze the data.
+
+``` r
+# Manually transcribe duration (mean, lo, hi) from the last table column
+duration <- data.frame(
+  Bird = c("Canada Goose","Mallard", 
+           "American Kestrel","Northern Bobwhite",
+           "Japanese Quail","Ring-necked Pheasant",
+           "American Coot","Killdeer",
+           "Ring-billed Gull","Mourning Dove",
+           "Rock Dove","Monk Parakeet",
+           "Budgerigar","Great Horned Owl",
+           "Northern Flicker","Blue Jay",
+           "Black-billed Magpie","American Crow",
+           "Fish Crow","American Robin",
+           "European Starling","Red-winged Blackbird",
+           "Common Grackle","House Finch","House Sparrow"),
+  mean = c(4.0,4.0,4.5,4.0,1.3,3.7,4.0,4.5,5.5,3.7,3.2,2.7,1.7,6.0,4.0,
+           4.0,5.0,3.8,5.0,4.5,3.2,3.0,3.3,6.0,4.5),
+  lo   = c(3,4,4,3,0,3,4,4,4,3,3,1,0,6,3,
+           3,5,3,4,4,3,3,3,5,2),
+  hi   = c(5,4,5,5,4,4,4,5,7,4,4,4,4,6,5,
+           5,5,5,7,5,4,3,4,7,6)
+)
+
+# Choose some colors
+cols <- c(rainbow(30)[c(10:29,1:5)])  # rainbow colors
+
+# horizontal barplot
+par(mar=c(5,12,2,2))  # wider left margin for names
+bp <- barplot(duration$mean, horiz=TRUE, names.arg=duration$Bird,
+              las=1, col=cols, xlab="Days of detectable viremia", xlim=c(0,7))
+
+# add error bars
+arrows(duration$lo, bp, duration$hi, bp,
+       angle=90, code=3, length=0.05, col="black", xpd=TRUE)
+```
+
+<img src="Warm-up-mosquitoes-Jordyn-Blauer-Official_files/figure-gfm/viremia-1.png" style="display: block; margin: auto auto auto 0;" />
+
+# STUDY QUESTION and HYPOTHESIS
+
+## Questions
+
+Are House finches the most likely species to be infected with WNV and
+pass on the infection?
+
+## Hypothesis
+
+House finches are the most likely species to be infected with WNV and
+they pose a higher risk of passing on infection.
+
+## Prediction
+
+If House finches are the most likely species to have WNV, we predict
+that mosquitoes caught in a certain area where House finches are
+present, will have fed from House finches more than other species,
+causing there to be higher rates of WNV in the House finches.
+
+# METHODS
+
+To begin the experiment, first, female mosquitoes were caught from the
+Salt Lake City area using gravid traps and CO2 traps. Once collected,
+the blood was extracted from the mosquitoes by smashing the mosquitoes
+and then run through PCR in order to amplify the DNA.
+
+To extract the blood, the mosquitoes were first smashed in their own
+individual tubes and the tubes were labeled and recorded. The smashed
+mosquitoes were then combined with 100 μL of DNA extraction/lysis
+buffer.
+
+Next, the smashes mosquitoes and their blood meals were ran through PCR
+to amplify the DNA in the samples to then be tested for the presence of
+WNV, this was done by pipetting reagents into the individual tubes,
+setting up a positive and negative sample, along with the other samples
+that are being tested. Once the thermocycler was setup, the samples were
+placed into the machine and allowed to run.
+
+The next step was to sequence the DNA. The amplified samples were then
+run through gel electrophoresis to determine the presence of WNV in the
+samples. The presence and absence of WNV was recorded for each sample.
+
+This was done by taking the samples that were amplified through the PCR
+and then sequenced using MinION Sequencing. The sequenced DNA from all
+the samples were then recorded and the sequences were analyzed using
+BLASTn analysis to find what kind of host species were found in the
+blood meals. All of the species found in the BLASTn were recorded.
+
+Lastly, the data we collected was assembled using Posit Cloud to show
+all of the species that were found in the blood meals and how many blood
+meals were found taken from all species found, as well as if WNV was
+detected or not. Then statistical tests were performed to find if the
+most common species found in the blood meals, the House finch, was
+correlated to increase the chance of WNV being detected at a certain
+location and if the amount of House finches were found to increase the
+amount of infection.
+
+## Fill in 1st analysis e.g. barplots
+
+In these bar plots, the number of mosquito blood meals were compared
+from each of the found host species between sites with no WNV-positive
+pools and sites with one or more WNV-positive pools. The bar plot helps
+visualize this data because the bar plots show what species were found,
+the amount of blood meals taken from the found species, and whether or
+not WNV was detected.
+
+## Barplot Code
+
+``` r
+## import counts_matrix: data.frame with column 'loc_positives' (0/1) and host columns 'host_*'
+counts_matrix <- read.csv("./bloodmeal_plusWNV_for_BIOL3070.csv")
+
+## 1) Identify host columns
+host_cols <- grep("^host_", names(counts_matrix), value = TRUE)
+
+if (length(host_cols) == 0) {
+  stop("No columns matching '^host_' were found in counts_matrix.")
+}
+
+## 2) Ensure loc_positives is present and has both levels 0 and 1 where possible
+counts_matrix$loc_positives <- factor(counts_matrix$loc_positives, levels = c(0, 1))
+
+## 3) Aggregate host counts by loc_positives
+agg <- stats::aggregate(
+  counts_matrix[, host_cols, drop = FALSE],
+  by = list(loc_positives = counts_matrix$loc_positives),
+  FUN = function(x) sum(as.numeric(x), na.rm = TRUE)
+)
+
+## make sure both rows exist; if one is missing, add a zero row
+need_levels <- setdiff(levels(counts_matrix$loc_positives), as.character(agg$loc_positives))
+if (length(need_levels)) {
+  zero_row <- as.list(rep(0, length(host_cols)))
+  names(zero_row) <- host_cols
+  for (lv in need_levels) {
+    agg <- rbind(agg, c(lv, zero_row))
+  }
+  ## restore proper type
+  agg$loc_positives <- factor(agg$loc_positives, levels = c("0","1"))
+  ## coerce numeric host cols (they may have become character after rbind)
+  for (hc in host_cols) agg[[hc]] <- as.numeric(agg[[hc]])
+  agg <- agg[order(agg$loc_positives), , drop = FALSE]
+}
+
+## 4) Decide species order (overall abundance, descending)
+overall <- colSums(agg[, host_cols, drop = FALSE], na.rm = TRUE)
+host_order <- names(sort(overall, decreasing = TRUE))
+species_labels <- rev(sub("^host_", "", host_order))  # nicer labels
+
+## 5) Build count vectors for each panel in the SAME order
+counts0 <- rev(as.numeric(agg[agg$loc_positives == 0, host_order, drop = TRUE]))
+counts1 <- rev(as.numeric(agg[agg$loc_positives == 1, host_order, drop = TRUE]))
+
+## 6) Colors: reuse your existing 'cols' if it exists and is long enough; otherwise generate
+if (exists("cols") && length(cols) >= length(host_order)) {
+  species_colors <- setNames(cols[seq_along(host_order)], species_labels)
+} else {
+  species_colors <- setNames(rainbow(length(host_order) + 10)[seq_along(host_order)], species_labels)
+}
+
+## 7) Shared x-limit for comparability
+xmax <- max(c(counts0, counts1), na.rm = TRUE)
+xmax <- if (is.finite(xmax)) xmax else 1
+xlim_use <- c(0, xmax * 1.08)
+
+## 8) Plot: two horizontal barplots with identical order and colors
+op <- par(mfrow = c(1, 2),
+          mar = c(4, 12, 3, 2),  # big left margin for species names
+          xaxs = "i")           # a bit tighter axis padding
+
+## Panel A: No WNV detected (loc_positives = 0)
+barplot(height = counts0,
+        names.arg = species_labels, 
+        cex.names = .5,
+        cex.axis = .5,
+        col = rev(unname(species_colors[species_labels])),
+        horiz = TRUE,
+        las = 1,
+        xlab = "Bloodmeal counts",
+        main = "Locations WNV (-)",
+        xlim = xlim_use)
+
+## Panel B: WNV detected (loc_positives = 1)
+barplot(height = counts1,
+        names.arg = species_labels, 
+        cex.names = .5,
+        cex.axis = .5,
+        col = rev(unname(species_colors[species_labels])),
+        horiz = TRUE,
+        las = 1,
+        xlab = "Bloodmeal counts",
+        main = "Locations WNV (+)",
+        xlim = xlim_use)
+```
+
+![](Warm-up-mosquitoes-Jordyn-Blauer-Official_files/figure-gfm/first-analysis-1.png)<!-- -->
+
+``` r
+par(op)
+
+## Keep the colors mapping for reuse elsewhere
+host_species_colors <- species_colors
+```
+
+# Second Analysis
+
+## Fill in 2nd analysis/plot e.g. generalized linear model
+
+The first statistical test is a logistic regression model it shows
+whether there is an association between House finches and being positive
+for WNV.
+
+The second statistical test is a linear regression model. It tests
+whether the number of House finch blood meals predicts the WNV
+positivity rate.
+
+## Statisical Test Code
+
+\`\`\`
+
+``` r
+# second-analysis-or-plot, glm with house finch alone against binary +/_
+glm1 <- glm(loc_positives ~ host_House_finch,
+            data = counts_matrix,
+            family = binomial)
+summary(glm1)
+```
+
+    ## 
+    ## Call:
+    ## glm(formula = loc_positives ~ host_House_finch, family = binomial, 
+    ##     data = counts_matrix)
+    ## 
+    ## Coefficients:
+    ##                  Estimate Std. Error z value Pr(>|z|)  
+    ## (Intercept)       -0.1709     0.1053  -1.622   0.1047  
+    ## host_House_finch   0.3468     0.1586   2.187   0.0287 *
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## (Dispersion parameter for binomial family taken to be 1)
+    ## 
+    ##     Null deviance: 546.67  on 394  degrees of freedom
+    ## Residual deviance: 539.69  on 393  degrees of freedom
+    ## AIC: 543.69
+    ## 
+    ## Number of Fisher Scoring iterations: 4
+
+``` r
+#glm with house-finch alone against positivity rate
+glm2 <- glm(loc_rate ~ host_House_finch,
+            data = counts_matrix)
+summary(glm2)
+```
+
+    ## 
+    ## Call:
+    ## glm(formula = loc_rate ~ host_House_finch, data = counts_matrix)
+    ## 
+    ## Coefficients:
+    ##                  Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)      0.054861   0.006755   8.122 6.07e-15 ***
+    ## host_House_finch 0.027479   0.006662   4.125 4.54e-05 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## (Dispersion parameter for gaussian family taken to be 0.01689032)
+    ## 
+    ##     Null deviance: 6.8915  on 392  degrees of freedom
+    ## Residual deviance: 6.6041  on 391  degrees of freedom
+    ##   (2 observations deleted due to missingness)
+    ## AIC: -484.56
+    ## 
+    ## Number of Fisher Scoring iterations: 2
+
+# DISCUSSION
+
+## Interpretation of 1st analysis (e.g. barplots)
+
+The bar plots show the amount of blood meals that were found to be taken
+from each of the individual host species found in the experiment. It was
+found that the mosquitoes took most of their blood meals from House
+finches followed by House sparrows. The panel to the left, labeled with
+a “-,” signifies that WNV was not detected in these blood meals.The
+panel to the right, labeled with a “+,” signifies that WNV was detected
+in these bloodmeals. Based on the plot, it can be determined that House
+finches had the most amount of blood meals taken from them and from them
+they had the highest rates of both being positive for WNV and being
+negative for WNV.
+
+These bar plots help support our hypothesis of House finches are the
+most likely species to be infected with WNV and they pose a higher risk
+of spreading the infection via blood meals by mosquitoes because it
+tells us that the House finches were the main species the mosquitoes
+took blood meals from and were positive for WNV.
+
+## Interpretation of 2nd analysis (e.g. generalized linear model)
+
+The first statistical test produced a p-value of 0.0287, indicating that
+the association between House finch presence and WNV positivity is
+statistically significant. This means that areas with more House finch
+blood meals taken are significantly more likely to be positive for WNV.
+
+The second statistical test produced a p-value of 4.54 × 10⁻⁵, which is
+highly significant. This shows that greater numbers of House finch blood
+meals are significantly correlated with higher rates of WNV positivity
+in the area.
+
+These analyses support our hypothesis that House finches are the most
+likely species to be infected with WNV and they pose a higher risk of
+spreading the infection via blood meals by mosquitoes. The first
+statistical test showed that House Finch blood meals were significantly
+more likely to have WNV-positive mosquito pools. This shows that House
+Finches contribute to the rate of infection of WNV in the area because
+mosquitoes are more likely to pick up the virus from them. The second
+statistical test further showed that the number of House Finch blood
+meals was significantly correlated with higher WNV positivity rates,
+indicating that finches may increase WNV infections in the Salt Lake
+City area that they were collected from.
+
+Although these analysis and plots support the hypothesis, there is a
+limitation that this experiment only tests mosquitoes collected in The
+Salt Lake City area. If data were to be collected from other locations
+around The United States, it could show that different species, other
+than House finches, are found to play a bigger role in spreading WNV.
+
+# CONCLUSION
+
+In conclusion, the findings from the data conclude that House finches
+are the most likely species to be infected with WNV due to the data
+showing that House finches had highest rates of WNV and highest rates of
+mosquitoes taking blood meals from them and they pose a higher risk of
+passing on infection due to the House finches having one of the longest
+rates of detectable viremia, an they are the most likely species to be
+infected.
+
+# REFERENCES
+
+1.  Komar N, Langevin S, Hinten S, Nemeth N, Edwards E, Hettler D, Davis
+    B, Bowen R, Bunning M. Experimental infection of North American
+    birds with the New York 1999 strain of West Nile virus. Emerg Infect
+    Dis. 2003 Mar;9(3):311-22. <https://doi.org/10.3201/eid0903.020628>
+
+2.  ChatGPT. OpenAI, version Jan 2025. Used as a reference for functions
+    such as plot() and to correct syntax errors. Accessed 2025-10-08.
+
+3.  Centers for Disease Control and Prevention. (n.d.). About West Nile.
+    Centers for Disease Control and Prevention.
+    <https://www.cdc.gov/west-nile-virus/about/index.html>
+
+4.  Polymerase chain reaction (PCR) fact sheet. Genome.gov. (n.d.).
+    <https://www.genome.gov/about-genomics/fact-sheets/Polymerase-Chain-Reaction-Fact-Sheet>
