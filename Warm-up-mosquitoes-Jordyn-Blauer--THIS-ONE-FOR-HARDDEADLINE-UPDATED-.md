@@ -446,7 +446,7 @@ are the most likely species to be infected with WNV due to the data
 showing that House finches had highest rates of WNV and highest rates of
 mosquitoes taking blood meals from them. It was also shown that they
 pose a higher risk of passing on infection due to the House finches
-having one of the longest rates of detectable viremia, an they are the
+having one of the longest rates of detectable viremia, and they are the
 most likely species to be infected.
 
 # REFERENCES
