@@ -1,7 +1,7 @@
 Warm-up mini-Report: Mosquito Blood Hosts in Salt Lake City, Utah
 ================
 Jordyn Blauer
-2025-10-08
+2025-10-11
 
 - [ABSTRACT](#abstract)
 - [BACKGROUND](#background)
@@ -37,14 +37,18 @@ and Co2 traps, female mosquitoes that have blood fed were collected and
 their blood meals were analyzed using PCR, followed by gel
 electrophoresis, MinION, and Blastn to determine positivity or
 negativity of WNV in the blood and what species the blood meals were
-taken from. By using this data run through Posit Cloud, it was
-determined that House finches were a major source of blood meals for
-mosquitoes and they had the highest positivity rates of WNV in those
-blood meals, meaning that the House finches were the most common and
-likely host for mosquitoes to pick up WNV and spread the infection,
-supporting our hypothesis that House finches are the most likely species
-to be infected with WNV and they pose a higher risk of spreading the
-infection via blood meals by mosquitoes.
+taken from. By using the collected data of the amount of blood meals,
+WNV positivity/negativity and what species were found in those blood
+meals, a generalized linear model was constructed and from it, it was
+determined that House finches were significantly associated with WNV
+positivity with a p-value of 0.0287 and that more blood meals taken from
+House finches were strongly correlated with higher rates of WNV
+positivity with a p-value of 4.54 X 10^-5. This means that the House
+finches were the most common and likely host for mosquitoes to pick up
+WNV and spread the infection, supporting our hypothesis that House
+finches are the most likely species to be infected with WNV and they
+pose a higher risk of spreading the infection via blood meals by
+mosquitoes.
 
 # BACKGROUND
 
@@ -59,6 +63,10 @@ viremia. The longer the days of detectable viremia in the blood of these
 birds, the longer mosquitoes are able to pick up the virus when they
 feed on these birds (Komar et al., 2003).
 
+A common species of bird in the Salt Lake City area is the House Finch.
+With these birds being so common in this area are House finches the most
+likely species to be infected with WNV and pass on the infection?
+
 In this experiment, after samples of female mosquitoes found in The Salt
 Lake City area were collected, the bloodmeals of the mosquitoes were
 extracted through smashing the mosquitoes in individual tubes, then
@@ -68,7 +76,7 @@ of animals the mosquitoes took bloodmeals from.
 
 PCR is a process that is used to amplify sequences of DNA, so that there
 are more copies of the sample DNA to make examination of it easier
-(PCR). The sample DNA is combined wiht DNA extraction/lysis buffer which
+(PCR). The sample DNA is combined with DNA extraction/lysis buffer which
 is many parts of DNA that is used to make more copies during the
 process. Once all the samples are assembled, the tubes are placed into
 the thermocycler machine, two of the samples in the machine are a
@@ -100,8 +108,9 @@ where DNA sequences can be run though in order to determine what species
 the DNA sequences belong to.
 
 Once all sequences have been run through BLASTn and all the species
-found are recorded, the data is collected and run through Posit Cloud to
-further analyze the data.
+found are recorded, the data is collected and generalized linear models
+were assembled into order to further analyze the data through
+determining p-values and slopes.
 
 ``` r
 # Manually transcribe duration (mean, lo, hi) from the last table column
@@ -189,14 +198,17 @@ the samples were then recorded and the sequences were analyzed using
 BLASTn analysis to find what kind of host species were found in the
 blood meals. All of the species found in the BLASTn were recorded.
 
-Lastly, the data we collected was assembled using Posit Cloud to show
-all of the species that were found in the blood meals and how many blood
-meals were found taken from all species found, as well as if WNV was
-detected or not. Then statistical tests were performed to find if the
-most common species found in the blood meals, the House finch, was
-correlated to increase the chance of WNV being detected at a certain
-location and if the amount of House finches were found to increase the
-amount of infection.
+Next, the data we collected was assembled into bar plots to show all of
+the species that were found in the blood meals and how many blood meals
+were found taken from all species found, as well as if WNV was detected
+or not.
+
+Lastly, statistical tests were performed to find if house finches were
+correlated found to increase the chance of WNV being detected at a
+certain location and if the amount of House finches were found to
+increase the amount of infection. The statistical methods used were
+generalized linear models in order to determine the p-values to
+determine if the findings were statistically significant.
 
 ## Fill in 1st analysis e.g. barplots
 
@@ -432,10 +444,10 @@ than House finches, are found to play a bigger role in spreading WNV.
 In conclusion, the findings from the data conclude that House finches
 are the most likely species to be infected with WNV due to the data
 showing that House finches had highest rates of WNV and highest rates of
-mosquitoes taking blood meals from them and they pose a higher risk of
-passing on infection due to the House finches having one of the longest
-rates of detectable viremia, an they are the most likely species to be
-infected.
+mosquitoes taking blood meals from them. It was also shown that they
+pose a higher risk of passing on infection due to the House finches
+having one of the longest rates of detectable viremia, an they are the
+most likely species to be infected.
 
 # REFERENCES
 
@@ -445,7 +457,7 @@ infected.
     Dis. 2003 Mar;9(3):311-22. <https://doi.org/10.3201/eid0903.020628>
 
 2.  ChatGPT. OpenAI, version Jan 2025. Used as a reference for functions
-    such as plot() and to correct syntax errors. Accessed 2025-10-08.
+    such as plot() and to correct syntax errors. Accessed 2025-10-11.
 
 3.  Centers for Disease Control and Prevention. (n.d.). About West Nile.
     Centers for Disease Control and Prevention.
