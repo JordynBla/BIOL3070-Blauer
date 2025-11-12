@@ -16,6 +16,9 @@ Asthma is a lung condition that causes difficulty in breathing due to constricte
   Poor air quality can impact those who suffer from asthma by causing their condition to worsen and trigger attacks (Tiotiu). It has been found in epidemiological studies that greater levels of air pollution has been associated with childhood asthma and that following an improvement of air quality, childhood asthma incidence had lowered (Jama). The state with the worst air quality in the U.S. is California due to it's high air pollution. 
   
   The graph shown below "Adults with Current Asthma vs Poor-Air Quality Days by State (Ranked by Asthma %)," shows that the state that has the highest prevalence of asthma in adults is California. Due to this, it is believed that air quality can affect the prevalence of asthma per state. We hypothesize that states that have a higher amounts of poor air quality days will have a higher prevalence of asthma. We predict that California will have the most poor air quality days and because of that they will also have the highest rates of asthma compared to other states.
+  
+  
+  
 
 ```{r data}
 # Load the data
