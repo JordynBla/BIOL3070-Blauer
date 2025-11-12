@@ -63,7 +63,7 @@ library(ggplot2)
  
 # Load the data
 air_data <- data.frame(State = c("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"))
-
+```
 
 ```{r}
 # Load ggplot2
@@ -80,6 +80,90 @@ State = c("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", 
 ggplot(data, aes(x=Poor_Air, y=State)) + 
   geom_bar(stat = "identity")
 ```
+```{r asthma-ranked-bars, echo=TRUE, message=FALSE, warning=FALSE, fig.width=10, fig.height=12, fig.cap="Adults with Current Asthma vs. Poor-Air Days by State (ranked by Asthma %)"}
+# Use the existing air_data from our environment
+# Convert to appropriate format and calculate percentages
+df <- data.frame(
+  State = air_data$State,
+  asthma_pct = air_data$Asthma,
+  poor_air_pct = air_data$Poor_Air * 100  # Convert proportion to percentage
+)
+
+# Sort by asthma percentage (descending)
+df <- df[order(-df$asthma_pct), ]
+
+# Set up plotting parameters
+par(mar = c(5, 10, 4, 6))  # Adjust margins for state names
+y_pos <- 1:nrow(df)  # Y positions for bars
+
+# Create empty plot
+plot(0, 0, type = "n", 
+     xlim = c(0, 50), 
+     ylim = c(0.5, nrow(df) + 0.5),
+     xlab = "Percent", 
+     ylab = "",
+     main = "Adults with Current Asthma vs. Poor-Air Days by State\n(Ranked by Asthma %)",
+     yaxt = "n")  # No default y-axis
+
+# Add asthma bars (blue)
+barplot_height <- df$asthma_pct
+rect(xleft = 0, ybottom = y_pos - 0.3, 
+     xright = barplot_height, ytop = y_pos + 0.3,
+     col = "lightblue", border = NA)
+
+# Add air quality bars (red) - offset slightly
+barplot_height_air <- df$poor_air_pct
+rect(xleft = 0, ybottom = y_pos - 0.3 + 0.6, 
+     xright = barplot_height_air, ytop = y_pos + 0.3 + 0.6,
+     col = "lightcoral", border = NA)
+
+# Add state names
+axis(2, at = y_pos, labels = df$State, las = 1, cex.axis = 0.6)
+
+# Add legend
+legend("bottomright", 
+       legend = c("Adults with Current Asthma (%)", "Poor Air Quality Days (%)"),
+       fill = c("lightblue", "lightcoral"),
+       cex = 0.8,
+       bty = "n")
+```
+
+
+
+```{r scatter plot}
+# Scatter plot with regression line and statistics
+plot(air_data$Poor_Air, air_data$Asthma,
+     xlab = "Proportion of Poor Air Quality Days",
+     ylab = "Asthma Rate (%)",
+     main = "Air Quality vs Asthma Rates by State",
+     pch = 16, col = "blue", cex = 1.2)
+
+# Add regression line
+model <- lm(Asthma ~ Poor_Air, data = air_data)
+abline(model, col = "red", lwd = 2)
+
+# Calculate statistics
+correlation <- cor(air_data$Poor_Air, air_data$Asthma)
+r_squared <- summary(model)$r.squared
+p_value <- summary(model)$coefficients[2,4]
+
+# Add statistics to plot
+legend("topright", 
+       legend = c(paste("Correlation:", round(correlation, 3)),
+                  paste("R-squared:", round(r_squared, 3)),
+                  paste("p-value:", round(p_value, 4))),
+       bty = "n")
+
+# Print statistics to console
+cat("=== REGRESSION STATISTICS ===\n")
+cat("Correlation:", round(correlation, 3), "\n")
+cat("R-squared:", round(r_squared, 3), "\n")
+cat("p-value:", round(p_value, 4), "\n")
+cat("Regression equation: Asthma =", 
+    round(coef(model)[1], 2), "+", 
+    round(coef(model)[2], 2), "* Poor_Air\n")
+```
+
 
 
 # Second Analysis

@@ -1,0 +1,284 @@
+---
+title: "Untitled"
+author: "Jordyn Blauer"
+date: "2025-11-11"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# ABSTRACT
+
+
+# BACKGROUND
+  Asthma is a lung condition that causes difficulty in breathing due to constricted airways in the lungs. Severity of the condition differs from person to person with some only experiencing minor inconveniences while others can experience debilitating and life-threatening challenges from the disease (Asthma). 
+  Poor air quality can impact those who suffer from asthma by causing their condition to worsen and trigger attacks (Tiotiu). Due to this, it is possible that air quality can affect the prevalence of asthma per state. We hypothesize that states that have a higher amounts of poor air quality days will have a higher prevalence of asthma. We predict that California will have the most poor air quality days and because of that they will also have the highest rates of asthma compared to other states.
+
+```{r data}
+# Load the data
+air_data <- data.frame(
+  State = c("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"),
+  Poor_Air = c(0.27, 0.12, 0.33, 0.3, 0.46, 0.25, 0.22, 0.31, 0.24, 0.3, 0.03, 0.28, 0.34, 0.25, 0.27, 0.29, 0.23, 0.29, 0.08, 0.19, 0.23, 0.24, 0.14, 0.31, 0.22, 0.19, 0.1, 0.25, 0.1, 0.27, 0.22, 0.16, 0.2, 0.17, 0.25, 0.34, 0.29, 0.31, 0.16, 0.25, 0.15, 0.23, 0.33, 0.29, 0.13, 0.12, 0.24, 0.16, 0.2, 0.15),
+  Asthma = c(9.6, 10.7, 9.7, 10.5, 8.7, 10.8, 12.4, 9.9, 9.3, 9.6, 9.1, 11.1, 8.7, 11, 9.7, 10.7, 10.8, 10, 13.1, 10.4, 11.3, 11.9, 9.9, 9.4, 10.4, 11.7, 8.1, 10.1, 13.1, 8.9, 10.4, 10.3, 9.2, 10.4, 11.4, 12.3, 11.5, 10.1, 13.3, 9, 8.3, 11.7, 7.9, 11, 12.9, 9.9, 10.9, 12.9, 10.9, 10.5)
+)
+```
+
+```{r asthma-ranked-bars, echo=TRUE, message=FALSE, warning=FALSE, fig.width=10, fig.height=12, fig.cap="Adults with Current Asthma vs. Poor-Air Days by State (ranked by Asthma %)"}
+# Use the existing air_data from our environment
+# Convert to appropriate format and calculate percentages
+df <- data.frame(
+  State = air_data$State,
+  asthma_pct = air_data$Asthma,
+  poor_air_pct = air_data$Poor_Air * 100  # Convert proportion to percentage
+)
+
+# Sort by asthma percentage (descending)
+df <- df[order(-df$asthma_pct), ]
+
+# Set up plotting parameters
+par(mar = c(5, 10, 4, 6))  # Adjust margins for state names
+y_pos <- 1:nrow(df)  # Y positions for bars
+
+# Create empty plot
+plot(0, 0, type = "n", 
+     xlim = c(0, 50), 
+     ylim = c(0.5, nrow(df) + 0.5),
+     xlab = "Percent", 
+     ylab = "",
+     main = "Adults with Current Asthma vs. Poor-Air Days by State\n(Ranked by Asthma %)",
+     yaxt = "n")  # No default y-axis
+
+# Add asthma bars (blue)
+barplot_height <- df$asthma_pct
+rect(xleft = 0, ybottom = y_pos - 0.3, 
+     xright = barplot_height, ytop = y_pos + 0.3,
+     col = "lightblue", border = NA)
+
+# Add air quality bars (red) - offset slightly
+barplot_height_air <- df$poor_air_pct
+rect(xleft = 0, ybottom = y_pos - 0.3 + 0.6, 
+     xright = barplot_height_air, ytop = y_pos + 0.3 + 0.6,
+     col = "lightcoral", border = NA)
+
+# Add state names
+axis(2, at = y_pos, labels = df$State, las = 1, cex.axis = 0.6)
+
+# Add legend
+legend("bottomright", 
+       legend = c("Adults with Current Asthma (%)", "Poor Air Quality Days (%)"),
+       fill = c("lightblue", "lightcoral"),
+       cex = 0.8,
+       bty = "n")
+```
+
+```{r}
+# Set up side-by-side plots
+par(mfrow = c(1, 2), mar = c(5, 4, 4, 2))
+
+# Histogram with density curve for Asthma
+hist(df$asthma_pct, 
+     breaks = 15,
+     main = "Distribution of Asthma Prevalence",
+     xlab = "Adults with Current Asthma (%)",
+     ylab = "Density",
+     col = "lightblue",
+     border = "darkblue",
+     freq = FALSE,
+     xlim = c(0, max(df$asthma_pct) + 2))
+
+# Add density curve
+lines(density(df$asthma_pct), col = "darkblue", lwd = 2)
+
+# Add mean line
+abline(v = mean(df$asthma_pct), col = "red", lwd = 2, lty = 2)
+legend("topright", legend = paste("Mean:", round(mean(df$asthma_pct), 1), "%"), 
+       col = "red", lty = 2, lwd = 2, bty = "n")
+
+# Histogram with density curve for Poor Air Quality
+hist(df$poor_air_pct, 
+     breaks = 15,
+     main = "Distribution of Poor Air Quality Days",
+     xlab = "Poor Air Quality Days (%)",
+     ylab = "Density",
+     col = "lightcoral",
+     border = "darkred",
+     freq = FALSE,
+     xlim = c(0, max(df$poor_air_pct) + 5))
+
+# Add density curve
+lines(density(df$poor_air_pct), col = "darkred", lwd = 2)
+
+# Add mean line
+abline(v = mean(df$poor_air_pct), col = "red", lwd = 2, lty = 2)
+legend("topright", legend = paste("Mean:", round(mean(df$poor_air_pct), 1), "%"), 
+       col = "red", lty = 2, lwd = 2, bty = "n")
+
+# Reset plotting parameters
+par(mfrow = c(1, 1))
+```
+
+
+# STUDY QUESTION and HYPOTHESIS
+
+## Questions  
+Does air quality effect the prevalence of asthma per state?
+
+## Hypothesis 
+The states with the highest amounts of poor air quality days will also have higher prevalence of asthma.
+  
+## Prediction
+California will have the highest prevelance of asthma because of its' high amounts of poor air quality days. 
+
+# METHODS/RESULTS
+
+For this experiment, we began by taking asthma data from 
+
+## 1st Analysis 
+
+
+```{r}
+## 1st Analysis: Linear Regression - Air Quality vs Asthma Rates
+
+# Convert Poor_Air from proportion to percentage
+air_data$Poor_Air_Percent <- air_data$Poor_Air * 100
+
+# Scatter plot with regression line
+plot(air_data$Poor_Air_Percent, air_data$Asthma,
+     xlab = "Percentage of Poor Air Quality Days",
+     ylab = "Asthma Rate (%)",
+     main = "Air Quality vs Asthma Rates by State",
+     pch = 16, col = "blue", cex = 1.2)
+
+# Add regression line
+model <- lm(Asthma ~ Poor_Air_Percent, data = air_data)
+abline(model, col = "red", lwd = 2)
+
+# Calculate statistics
+correlation <- cor(air_data$Poor_Air_Percent, air_data$Asthma)
+r_squared <- summary(model)$r.squared
+p_value <- summary(model)$coefficients[2,4]
+
+# Create comprehensive results table
+regression_stats <- data.frame(
+  Statistic = c("Correlation Coefficient", "R-squared", "Adjusted R-squared", 
+                "Overall Model p-value", "Regression p-value", "Observations"),
+  Value = c(round(correlation, 3),
+            round(r_squared, 3),
+            round(summary(model)$adj.r.squared, 3),
+            round(pf(summary(model)$fstatistic[1], summary(model)$fstatistic[2], 
+                     summary(model)$fstatistic[3], lower.tail = FALSE), 4),
+            round(p_value, 4),
+            nrow(air_data))
+)
+
+
+# Create coefficients table
+coefficients_table <- data.frame(
+  Term = c("Intercept", "Poor Air Quality (%)"),
+  Estimate = c(round(coef(model)[1], 3), round(coef(model)[2], 3)),
+  Std_Error = c(round(summary(model)$coefficients[1,2], 3), 
+                round(summary(model)$coefficients[2,2], 3)),
+  t_value = c(round(summary(model)$coefficients[1,3], 3), 
+              round(summary(model)$coefficients[2,3], 3)),
+  p_value = c(round(summary(model)$coefficients[1,4], 4), 
+              round(summary(model)$coefficients[2,4], 4))
+)
+
+
+# Add clean statistics to plot
+legend("topright", 
+       legend = c(paste("r =", round(correlation, 3)),
+                  paste("R² =", round(r_squared, 3)),
+                  paste("p =", ifelse(p_value < 0.001, "< 0.001", round(p_value, 3)))),
+       bty = "n", cex = 0.9)
+```
+
+
+```{r}
+
+str(air_data)
+# If it's a character column
+air_data$Poor_Air_Percent <- as.numeric(air_data$Poor_Air_Percent)
+
+# If it's a factor column
+air_data$Poor_Air_Percent <- as.numeric(as.character(air_data$Poor_Air_Percent))
+
+air_data$Asthma <- as.numeric(as.character(air_data$Asthma))
+cat("Poor Air Quality - Shapiro p-value:", 
+    round(shapiro.test(na.omit(air_data$Poor_Air_Percent))$p.value, 4), "\n")
+
+cat("Asthma Rate - Shapiro p-value:", 
+    round(shapiro.test(na.omit(air_data$Asthma))$p.value, 4), "\n")
+# Convert factor/character to numeric safely
+air_data$Poor_Air_Percent <- as.numeric(as.character(air_data$Poor_Air_Percent))
+air_data$Asthma <- as.numeric(as.character(air_data$Asthma))
+
+# Check for NAs introduced
+sum(is.na(air_data$Poor_Air_Percent))
+sum(is.na(air_data$Asthma))
+air_data[is.na(air_data$Poor_Air_Percent), ]
+air_data[is.na(air_data$Asthma), ]
+cat("Poor Air Quality - Shapiro p-value:", 
+    round(shapiro.test(na.omit(air_data$Poor_Air_Percent))$p.value, 4), "\n")
+cat("Asthma Rate - Shapiro p-value:", 
+    round(shapiro.test(na.omit(air_data$Asthma))$p.value, 4), "\n")
+
+
+```
+
+
+## 2nd Analysis 
+
+```{r}
+
+## Pearson Correlation Analysis
+
+# Calculate Pearson correlation
+cor_test <- cor.test(air_data$Poor_Air, air_data$Asthma, method = "pearson")
+
+# Create correlation results table
+correlation_table <- data.frame(
+  Statistic = c("Pearson Correlation Coefficient", 
+                "95% Confidence Interval Lower",
+                "95% Confidence Interval Upper",
+                "t-statistic",
+                "Degrees of Freedom",
+                "p-value",
+                "Sample Size"),
+  Value = c(round(cor_test$estimate, 3),
+            round(cor_test$conf.int[1], 3),
+            round(cor_test$conf.int[2], 3),
+            round(cor_test$statistic, 3),
+            cor_test$parameter,
+            ifelse(cor_test$p.value < 0.001, "< 0.001", round(cor_test$p.value, 4)),
+            nrow(air_data))
+)
+
+# Display correlation results
+knitr::kable(correlation_table, caption = "Pearson Correlation Analysis")
+```
+
+
+
+
+# DISCUSSION
+
+## Interpretation of 1st analysis 
+
+
+## Interpretation of 2nd analysis 
+
+
+# CONCLUSION
+
+# REFERENCES     
+
+
+1. ChatGPT. OpenAI, version Jan 2025. Used as a reference for functions such as plot() and to correct syntax errors. Accessed `r Sys.Date()`.
+
+2. Google. (2025). Gemini (version Oct 2025). Tool used for quick fixes, editing grammar and flow of text, and checking all rubric requirements were met.
+
+3. “Asthma.” Mayo Clinic, Mayo Foundation for Medical Education and Research, 8 Mar. 2025, www.mayoclinic.org/diseases-conditions/asthma/symptoms-causes/syc-20369653. 
+
+4. Tiotiu AI, Novakova P, Nedeva D, Chong-Neto HJ, Novakova S, Steiropoulos P, Kowal K. Impact of Air Pollution on Asthma Outcomes. Int J Environ Res Public Health. 2020 Aug 27;17(17):6212. doi: 10.3390/ijerph17176212. PMID: 32867076; PMCID: PMC7503605.
