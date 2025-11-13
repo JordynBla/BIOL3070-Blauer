@@ -1,8 +1,10 @@
 ---
-title: "FinalRMarkdown"
+title: "FinalRmarkdownproject"
 author: "Jordyn Blauer"
-date: "2025-11-06"
-output: html_document
+date: "2025-11-12"
+output:
+  github_document:
+    toc: true
 ---
 
 ```{r setup, include=FALSE}
@@ -12,10 +14,12 @@ knitr::opts_chunk$set(echo = TRUE)
 # ABSTRACT
 
 # BACKGROUND
-  Asthma is a lung condition that causes difficulty in breathing due to constricted airways in the lungs. Severity of the condition differs from person to person with some only experiencing minor inconveniences while others can experience debilitating and life-threatening challenges from the disease (Asthma). 
-  Because asthma affects the lungs, it is an obvious conclusion that poor air quality can affect those with asthma. However, does the air quality affect the prevalence of asthma per state? We hypothesize that states that have a higher amounts of poor air quality days will have a higher prevalence of asthma. We predict that California will have the most poor air quality days and because of that they will also have the highest rates of asthma compared to other states.
 
+Asthma is a lung condition that causes difficulty in breathing due to constricted airways in the lungs. There are many different kinds of asthma such as; exercise-induced asthma, occupational asthma, and allergy-induced asthma (Asthma). Those with occupational asthma can have attacks triggered by things such as gases, fumes, and dust, similar to that of air pollution (Asthma). Severity of the condition differs from person to person with some only experiencing minor inconveniences while others can experience debilitating and life-threatening challenges from the disease (Asthma). Asthma is a very common disease in the U.S., about 28 million people in the U.S. suffer from asthma (Asthma facts).
 
+Poor air quality can impact those who suffer from asthma by causing their condition to worsen and trigger attacks (Tiotiu). It has been found in epidemiological studies that greater levels of air pollution has been associated with childhood asthma and that following an improvement of air quality, childhood asthma incidence had lowered (Jama). The state with the worst air quality in the U.S. is California due to it's high air pollution.
+
+The graph shown below "Adults with Current Asthma vs Poor-Air Quality Days by State (Ranked by Asthma %)," shows that the state that has the highest prevalence of asthma in adults is California. Due to this, it is believed that air quality can affect the prevalence of asthma per state. We hypothesize that states that have a higher amounts of poor air quality days will have a higher prevalence of asthma. We predict that California will have the most poor air quality days and because of that they will also have the highest rates of asthma compared to other states.
 
 ```{r data}
 # Load the data
@@ -74,24 +78,25 @@ legend("bottomright",
        bty = "n")
 ```
 
-
-
 # STUDY QUESTION and HYPOTHESIS
 
-## Questions  
+## Questions
+
 Does air quality effect the prevalence of asthma per state?
 
-## Hypothesis 
+## Hypothesis
+
 The states with the highest amounts of poor air quality days will also have higher prevalence of asthma.
-  
+
 ## Prediction
-California will have the highest prevelance of asthma because of its' high amounts of poor air quality days. 
+
+California will have the highest prevalence of asthma because of its' high amounts of poor air quality days.
 
 # METHODS/RESULTS
 
+## 1st Analysis
 
-## 1st Analysis 
-```{r}
+```{r scatter plot}
 ## 1st Analysis: Linear Regression - Air Quality vs Asthma Rates
 
 # Scatter plot with regression line
@@ -123,15 +128,9 @@ regression_stats <- data.frame(
             nrow(air_data))
 )
 
+# Display model statistics
+knitr::kable(regression_stats, caption = "Linear Regression Model Summary")
 
-# Add clean statistics to plot
-legend("topright", 
-       legend = c(paste("r =", round(correlation, 3)),
-                  paste("R² =", round(r_squared, 3)),
-                  paste("p =", ifelse(p_value < 0.001, "< 0.001", round(p_value, 3)))),
-       bty = "n", cex = 0.9)
-```
-```{r}
 # Create coefficients table
 coefficients_table <- data.frame(
   Term = c("Intercept", "Poor Air Quality"),
@@ -145,36 +144,17 @@ coefficients_table <- data.frame(
 )
 
 knitr::kable(coefficients_table, caption = "Regression Coefficients")
-# Display model statistics
-knitr::kable(regression_stats, caption = "Linear Regression Model Summary")
-```
-```{r}
-# Load required libraries
-library(ggplot2)
 
-# Read the CSV file
-data <- read.csv("Prevalence of Asthma - Summarized Sheet (combined countries).csv", stringsAsFactors = FALSE)
-
-# Histogram 1: Proportion of moderate to hazardous days per state
-ggplot(data, aes(x = `Proportion.of.moderate.to.hazardous.days`)) +
-  geom_histogram(bins = 10, fill = "skyblue", color = "black") +
-  labs(title = "Proportion of Moderate to Hazardous Days per State",
-       x = "Proportion of Moderate to Hazardous Days",
-       y = "Number of States") +
-  theme_minimal()
-
-# Histogram 2: Average proportion per state
-ggplot(data, aes(x = `Average.proportion.per.state`)) +
-  geom_histogram(bins = 10, fill = "lightcoral", color = "black") +
-  labs(title = "Average Proportion of Poor Air Quality per State",
-       x = "Average Proportion per State",
-       y = "Number of States") +
-  theme_minimal()
+# Add clean statistics to plot
+legend("topright", 
+       legend = c(paste("r =", round(correlation, 3)),
+                  paste("R² =", round(r_squared, 3)),
+                  paste("p =", ifelse(p_value < 0.001, "< 0.001", round(p_value, 3)))),
+       bty = "n", cex = 0.9)
 ```
 
+## 2nd Analysis
 
-
-## 2nd Analysis 
 ```{r}
 ## 2nd Analysis: T-test comparing asthma rates between high and low pollution states
 
@@ -202,10 +182,7 @@ results_table <- data.frame(
 
 # Display the table
 knitr::kable(results_table, caption = "T-Test Results: Asthma Rates by Pollution Level")
-```
 
-
-```{r}
 # Create a boxplot to visualize the difference
 boxplot(Asthma ~ Pollution_Level, 
         data = air_data,
@@ -215,28 +192,74 @@ boxplot(Asthma ~ Pollution_Level,
         col = c("lightgreen", "salmon"))
 ```
 
+```{r}
+# Load libraries
+library(ggplot2)
+library(patchwork)  # for combining plots side-by-side
+
+# Read the data
+data <- read.csv("Group Project CompBio - Summarized Sheet (combined counties).csv")
+
+# Inspect column names if needed
+names(data)
+
+# Rename columns to simpler names
+names(data)[grep("poor.air.quality", names(data))] <- "PoorAirQuality"
+names(data)[grep("Asthma", names(data))] <- "Asthma"
+
+# Convert to numeric, in case they're text
+data$PoorAirQuality <- as.numeric(gsub("[^0-9\\.]", "", data$PoorAirQuality))
+data$Asthma <- as.numeric(gsub("[^0-9\\.]", "", data$Asthma))
+
+# -------------------------
+# 1️⃣ Histogram for Poor Air Quality (density)
+p1 <- ggplot(data, aes(x = PoorAirQuality)) +
+  geom_histogram(aes(y = ..density..), binwidth = 5,
+                 fill = "lightgreen", color = "black", alpha = 0.7) +
+  labs(
+    title = "Distribution of Poor Air Quality Days",
+    x = "Percent of Poor Air Quality Days",
+    y = "Density"
+  ) +
+  theme_minimal()
+
+# -------------------------
+# 2️⃣ Histogram for Asthma (density)
+p2 <- ggplot(data, aes(x = Asthma)) +
+  geom_histogram(aes(y = ..density..), binwidth = 0.5,
+                 fill = "skyblue", color = "black", alpha = 0.7) +
+  labs(
+    title = "Distribution of Adult Asthma Prevalence",
+    x = "Percent of Adults with Current Asthma",
+    y = "Density"
+  ) +
+  theme_minimal()
+
+# -------------------------
+# Combine side-by-side
+p1 + p2
+
+
+```
 
 # DISCUSSION
 
-## Interpretation of 1st analysis 
+## Interpretation of 1st analysis
 
-## Interpretation of 2nd analysis 
-
+## Interpretation of 2nd analysis
 
 # CONCLUSION
 
+# REFERENCES
 
-# REFERENCES     
+1.  ChatGPT. OpenAI, version Jan 2025. Used as a reference for functions such as plot() and to correct syntax errors. Accessed `r Sys.Date()`.
 
+2.  Google. (2025). Gemini (version Oct 2025). Tool used for quick fixes, editing grammar and flow of text, and checking all rubric requirements were met.
 
-1. ChatGPT. OpenAI, version Jan 2025. Used as a reference for functions such as plot() and to correct syntax errors. Accessed `r Sys.Date()`.
+3.  “Asthma.” Mayo Clinic, Mayo Foundation for Medical Education and Research, 8 Mar. 2025, www.mayoclinic.org/diseases-conditions/asthma/symptoms-causes/syc-20369653.
 
-2. Google. (2025). Gemini (version Oct 2025). Tool used for quick fixes, editing grammar and flow of text, and checking all rubric requirements were met.
+4.  Tiotiu AI, Novakova P, Nedeva D, Chong-Neto HJ, Novakova S, Steiropoulos P, Kowal K. Impact of Air Pollution on Asthma Outcomes. Int J Environ Res Public Health. 2020 Aug 27;17(17):6212. doi: 10.3390/ijerph17176212. PMID: 32867076; PMCID: PMC7503605.
 
-3. “Asthma.” Mayo Clinic, Mayo Foundation for Medical Education and Research, 8 Mar. 2025, www.mayoclinic.org/diseases-conditions/asthma/symptoms-causes/syc-20369653. 
+5.  “Jama Network \| Home of Jama and the Specialty Journals of the American Medical Association.” Jama Network, jamanetwork.com/. Accessed 12 Nov. 2025.
 
-
-
-
-
-
+6.  “Asthma Facts.” Asthma & Allergy Foundation of America, 23 Apr. 2025, aafa.org/asthma/asthma-facts/.
