@@ -221,7 +221,7 @@ To begin the analysis if there was a correlation between asthma rates
 and poor air quality, 2022 asthma and air quality data was taken from
 The United States Environment Protection Agency. This data was used with
 asthma prevalence data from the CDC that showed proportions of people in
-the population who have asthma from each state in the U.S. The
+the population who have asthma from each state in the U.S. The sample sizes taken from each state is unknown as the data from the CDC does not specify, but the data was taken from all 50 U.S. states. The
 proportion of poor air quality days was taken by first finding the total
 days recorded and subtracting the good air quality days from it, then we
 divided the poor days by the total amount of days. Then using this data
