@@ -212,7 +212,7 @@ have higher prevalence of asthma.
 
 ## Prediction
 
-California will have the highest prevalence of asthma because of its’
+California will have the highest prevalence of asthma because of it's
 high amounts of poor air quality days.
 
 # METHODS/RESULTS
