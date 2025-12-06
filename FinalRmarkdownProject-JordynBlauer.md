@@ -203,7 +203,7 @@ par(mfrow = c(1, 1))
 
 ## Questions
 
-Does air quality effect the prevalence of asthma per state?
+Does air quality affect the prevalence of asthma per state?
 
 ## Hypothesis
 
