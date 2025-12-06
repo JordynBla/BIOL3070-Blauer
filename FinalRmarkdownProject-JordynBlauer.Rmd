@@ -17,9 +17,9 @@ Asthma is a chronic respiratory disease that can be worsened by many factors, on
 
 # BACKGROUND
 
-Asthma is a lung condition that causes difficulty in breathing due to constricted airways in the lungs. There are many different kinds of asthma such as; exercise-induced asthma, occupational asthma, and allergy-induced asthma (Asthma). Those with occupational asthma can have attacks triggered by things such as gases, fumes, and dust, similar to that of air pollution (Asthma). Severity of the condition differs from person to person with some only experiencing minor inconveniences while others can experience debilitating and life-threatening challenges from the disease (Asthma). Asthma is a very common disease in the U.S., about 28 million people in the U.S. suffer from asthma (Asthma facts).
+Asthma is a lung condition that causes difficulty in breathing due to constricted airways in the lungs. There are many different kinds of asthma such as; exercise-induced asthma, occupational asthma, and allergy-induced asthma (Mayo Clinic et al., 2025). Those with occupational asthma can have attacks triggered by things such as gases, fumes, and dust, similar to that of air pollution (Mayo Clinic et al., 2025). Severity of the condition differs from person to person with some only experiencing minor inconveniences while others can experience debilitating and life-threatening challenges from the disease (Mayo Clinic et al., 2025). Asthma is a very common disease in the U.S., about 28 million people in the U.S. suffer from asthma (James et al., 2022).
 
-Poor air quality can impact those who suffer from asthma by causing their condition to worsen and trigger attacks (Tiotiu). It has been found in epidemiological studies that greater levels of air pollution has been associated with childhood asthma and that following an improvement of air quality, childhood asthma incidence had lowered (Jama). The state with the worst air quality in the U.S. is California due to it's high air pollution.
+Poor air quality can impact those who suffer from asthma by causing their condition to worsen and trigger attacks (Tiotiu et al., 2020). It has been found in epidemiological studies that greater levels of air pollution has been associated with childhood asthma and that following an improvement of air quality, childhood asthma incidence had lowered (Jama et al., 2019). The state with the worst air quality in the U.S. is California due to it's high air pollution.
 
 The graph shown below "Adults with Current Asthma vs Poor-Air Quality Days by State (Ranked by Asthma %)," shows that the state that has the highest prevalence of asthma in adults is California. Due to this, it is believed that air quality can affect the prevalence of asthma per state. We hypothesize that states that have a higher amounts of poor air quality days will have a higher prevalence of asthma. We predict that California will have the most poor air quality days and because of that they will also have the highest rates of asthma compared to other states.
 
@@ -141,6 +141,9 @@ California will have the highest prevalence of asthma because of its’ high amo
 # METHODS/RESULTS
 
 To begin the analysis if there was a correlation between asthma rates and poor air quality, 2022 asthma and air quality data was taken from The United States Environment Protection Agency. This data was used with asthma prevalence data from the CDC that showed proportions of people in the population who have asthma from each state in the U.S. The proportion of poor air quality days was taken by first finding the total days recorded and subtracting the good air quality days from it, then we divided the poor days by the total amount of days. Then using this data we made a linear regression scatter plot to get a p-value, r value, and R^2 value. We also made a pearson correlation test from the data to find confidence intervals, t-test, and p-values. Lastly, a Shaprio-Wilk test was performed to test if the data had a normal distribution. 
+  The results of the linear regression line shoved an r value of -0.279, and R^2 value of .078 and a p-value of .05. 
+  The Pearson Correlation test gave a pearson correlation coefficient of -.2790, a confidence interval of -.5170 to -0.0010, a t-value of -2.013, and a p-value of 0.0497.
+  Lastly, the results of the Shapiro-Wilk test gave a statistic_w value of 0.9798 for poor air quality days and 0.9768 for asthma rates. Then, the test resulted in a p-value of .5452 for poor air quality days and .4249 for asthma rates.
 
 ## 1st Analysis- Linear Regression. 
 
@@ -273,7 +276,7 @@ The pearson correlation coefficient obtained from this test was -0.2790, indicat
   The Confidence interval is -0.5170 to -0.0010 shows that somewhere between these two values is where the true value lies, also the t value was -2.013, showing that there is a negative correlation between the variables. The p-value was .0497, is almost statistically significant, however it is a weak correlation.
 
 ## Interpretation of 3rd analysis- Shapiro-Wilk Test
-The Shapiro-Wilk test showed a statistic_W value of .9798 for poor air quality days and .9768 for asthma rates. Because the values were close to one, it shows that the data closely follows a normal distribution. The test also displayed a p-value of .5452 for poor air quality days and .4249 for asthma rates. As the p-values were more than .05 this also tells us that the variables are normally distributed. 
+The Shapiro-Wilk test showed a statistic_W value of .9798 for poor air quality days and .9768 for asthma rates. Because the values were close to one, it shows that the data closely follows a normal distribution. The test also displayed a p-value of .5452 for poor air quality days and .4249 for asthma rates.
 
 # CONCLUSION
 In conclusion, the data obtained from these analysis reveals that our hypothesis, "The states with the highest amounts of poor air quality days will also have higher prevalence of asthma," is not supported by the data. It was believed that there would have been a positive correlation between the two variables, but the results of the tests revealed that it had a negative correlation. Due to this, there must be other variables that are significantly affecting the rates of asthma other than poor air quality. The other variables could be inherited biological factors, chemicals, ventilation, climate, and altitude for instance. Because our analysis was limited to just looking at poor air quality it is possible that by looking at other factors a significant correlation could be found. Another limitation is that the data we looked at included moderate and unhealthy air quality days instead of it being generally "unhealthy" air quality days, which could have given more support to our original hypothesis that the states with the highest amounts of poor air quality days will also have higher prevalence of asthma.
@@ -284,10 +287,10 @@ In conclusion, the data obtained from these analysis reveals that our hypothesis
 
 2.  Google. (2025). Gemini (version Oct 2025). Tool used for quick fixes, editing grammar and flow of text, and checking all rubric requirements were met.
 
-3.  “Asthma.” Mayo Clinic, Mayo Foundation for Medical Education and Research, 8 Mar. 2025, www.mayoclinic.org/diseases-conditions/asthma/symptoms-causes/syc-20369653.
+3.  Mayo Clinic. (2025, March 8). Asthma. Mayo Clinic. https://www.mayoclinic.org/diseases-conditions/asthma/symptoms-causes/syc-20369653
 
-4.  Tiotiu AI, Novakova P, Nedeva D, Chong-Neto HJ, Novakova S, Steiropoulos P, Kowal K. Impact of Air Pollution on Asthma Outcomes. Int J Environ Res Public Health. 2020 Aug 27;17(17):6212. doi: 10.3390/ijerph17176212. PMID: 32867076; PMCID: PMC7503605.
+4.  Tiotiu, A. I., Novakova, P., Nedeva, D., Chong-Neto, H. J., Novakova, S., Steiropoulos, P., & Kowal, K. (2020). Impact of Air Pollution on Asthma Outcomes. International Journal of Environmental Research and Public Health, 17(17), 6212. https://doi.org/10.3390/ijerph17176212
 
-5.  “Jama Network \| Home of Jama and the Specialty Journals of the American Medical Association.” Jama Network, jamanetwork.com/. Accessed 12 Nov. 2025.
+5.  JAMA. (2019). Home of JAMA and the Specialty Journals of the American Medical Association. Jamanetwork.com. https://jamanetwork.com/
 
-6.  “Asthma Facts.” Asthma & Allergy Foundation of America, 23 Apr. 2025, aafa.org/asthma/asthma-facts/.
+6.  James, J. (2022, April). Asthma Facts. Asthma & Allergy Foundation of America. https://aafa.org/asthma/asthma-facts/
