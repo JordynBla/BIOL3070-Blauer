@@ -31,7 +31,7 @@ Asthma is a chronic respiratory disease that can be worsened by many
 factors, one such factor being air quality. The data came from the U.S.
 Environmental Protection Agency and the CDC to find asthma rates and
 poor air quality days across all 50 states in the U.S. The tests
-performed were a linear regression line, a pearson correlation test, and
+performed were a linear regression line, a Pearson correlation test, and
 a shapiro-wilks test. The results showed a weak negative correlation
 between poor air quality days and asthma prevalence with an r value of
 -.279 and a p value of .0497. Both of the variables found a normal
@@ -212,7 +212,7 @@ have higher prevalence of asthma.
 
 ## Prediction
 
-California will have the highest prevalence of asthma because of it's
+California will have the highest prevalence of asthma because of its
 high amounts of poor air quality days.
 
 # METHODS/RESULTS
@@ -226,12 +226,12 @@ proportion of poor air quality days was taken by first finding the total
 days recorded and subtracting the good air quality days from it, then we
 divided the poor days by the total amount of days. Then using this data
 we made a linear regression scatter plot to get a p-value, r value, and
-R^2 value. We also made a pearson correlation test from the data to find
-confidence intervals, t-test, and p-values. Lastly, a Shaprio-Wilk test
+R^2 value. We also made a Pearson correlation test from the data to find
+confidence intervals, t-test, and p-values. Lastly, a Shapiro-Wilk test
 was performed to test if the data had a normal distribution. The results
 of the linear regression line shoved an r value of -0.279, and R^2 value
 of .078 and a p-value of .05. The Pearson Correlation test gave a
-pearson correlation coefficient of -.2790, a confidence interval of
+Pearson correlation coefficient of -.2790, a confidence interval of
 -.5170 to -0.0010, a t-value of -2.013, and a p-value of 0.0497. Lastly,
 the results of the Shapiro-Wilk test gave a statistic_w value of 0.9798
 for poor air quality days and 0.9768 for asthma rates. Then, the test
@@ -305,9 +305,9 @@ legend("topright",
 
 ![](FinalRmarkdownProject-JordynBlauer_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
-## 2nd Analysis - Perason correlation
+## 2nd Analysis - Pearson correlation
 
-The second analysis performed was a pearson correlation test to measure
+The second analysis performed was a Pearson correlation test to measure
 the strength of the relationship between the linear variables.
 
 ``` r
@@ -406,7 +406,7 @@ air quality, but it is not as strong as expected.
 
 ## Interpretation of 2nd analysis- Pearson Correlation.
 
-The pearson correlation coefficient obtained from this test was -0.2790,
+The Pearson correlation coefficient obtained from this test was -0.2790,
 indicating a weak negative correlation between Asthma rates and
 percentage of poor air quality days. This shows that as the percentage
 of poor air quality days increases, asthma rates tend to decrease which
