@@ -229,7 +229,7 @@ we made a linear regression scatter plot to get a p-value, r value, and
 R^2 value. We also made a Pearson correlation test from the data to find
 confidence intervals, t-test, and p-values. Lastly, a Shapiro-Wilk test
 was performed to test if the data had a normal distribution. The results
-of the linear regression line shoved an r value of -0.279, and R^2 value
+of the linear regression line showed an r value of -0.279, and R^2 value
 of .078 and a p-value of .05. The Pearson Correlation test gave a
 Pearson correlation coefficient of -.2790, a confidence interval of
 -.5170 to -0.0010, a t-value of -2.013, and a p-value of 0.0497. Lastly,
