@@ -11,7 +11,7 @@ Jordyn Blauer
   - [Prediction](#prediction)
 - [METHODS/RESULTS](#methodsresults)
   - [1st Analysis- Linear Regression.](#1st-analysis--linear-regression)
-  - [2nd Analysis - Perason
+  - [2nd Analysis - Pearson
     correlation](#2nd-analysis---pearson-correlation)
   - [3rd Analysis- Shapiro-Wilk Normality
     Tests](#3rd-analysis--shapiro-wilk-normality-tests)
